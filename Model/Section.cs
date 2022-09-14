@@ -6,7 +6,20 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    internal class Section
+    public class Section
     {
+        public enum SectionTypes
+        {
+            Straigth,
+            LeftCorner,
+            RightCorner,
+            StartGrid,
+            Finish
+        }
+        public SectionTypes SectionType
+        {
+            get;
+            set;
+        }
     }
 }
