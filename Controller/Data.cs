@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 
-namespace ControllerTest
+namespace Controller
 {
     public static class Data
     {
         public static Competition competition { get; set; }
+        public static Race CurrentRace { get; set; }
         public static void Initialize(Competition c)
         {
             competition = new Competition();
@@ -29,6 +30,11 @@ namespace ControllerTest
         {
             Track track = new Track("test", new Section[1]);
             competition.Tracks.Enqueue(track);
+        }
+
+        public static void NextRace()
+        {
+
         }
        
            

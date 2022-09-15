@@ -15,6 +15,7 @@ namespace Controller
         private Random _random;
         private Dictionary<Section, SectionData> _positions;
 
+
         public SectionData GetSectionData(Section section)
         {
             if (_positions[section] != null)
@@ -31,12 +32,19 @@ namespace Controller
         {
             Track = track;
             Participants = participants;
-            _random = new Random(DateTime.Now.Millisecond);
         }
 
         public void RandomizeEquipment()
         {
-
+            foreach (var participant in Participants)
+            {
+                var performance_ = new Random();
+                int performance = Convert.ToInt32(performance_);
+                var quality_ = new Random();
+                int quality = Convert.ToInt32(quality_);
+                participant.Equipment.Performance = performance;
+                participant.Equipment.Quality = quality;
+            }
         }
     }
 }

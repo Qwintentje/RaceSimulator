@@ -1,0 +1,5 @@
+C:\Users\quint\Documents\GitHub\RaceSimulator\RaceSimulator\obj\Debug\net6.0\RaceSimulator.csproj.AssemblyReference.cache
+C:\Users\quint\Documents\GitHub\RaceSimulator\RaceSimulator\obj\Debug\net6.0\RaceSimulator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\quint\Documents\GitHub\RaceSimulator\RaceSimulator\obj\Debug\net6.0\RaceSimulator.AssemblyInfoInputs.cache
+C:\Users\quint\Documents\GitHub\RaceSimulator\RaceSimulator\obj\Debug\net6.0\RaceSimulator.AssemblyInfo.cs
+C:\Users\quint\Documents\GitHub\RaceSimulator\RaceSimulator\obj\Debug\net6.0\RaceSimulator.csproj.CoreCompileInputs.cache
