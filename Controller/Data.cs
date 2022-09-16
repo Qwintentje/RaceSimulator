@@ -12,18 +12,23 @@ namespace Controller
     {
         public static Competition competition { get; set; }
         public static Race CurrentRace { get; set; }
-        public static void Initialize(Competition c)
+       
+        
+        public static void Initialize()
         {
             competition = new Competition();
-            addParticipant();
-            addParticipant();
-            addParticipant();
-
+           
+            for (int i = 0; i < 3; i++)
+            {
+                addParticipant();
+                addTracks();
+            }
+            CurrentRace = new Race(competition.NextTrack(), competition.Participants);
         }
         public static void addParticipant()
         {
-            Driver driver = new Driver();
-            competition.Participants.Add(driver);
+//            Driver driver = new Driver();
+            competition.Participants.Add(new Driver());
         }
 
         public static void addTracks()
@@ -34,7 +39,11 @@ namespace Controller
 
         public static void NextRace()
         {
+            if (competition.NextTrack() != null)
+            {
+                CurrentRace = new Race(competition.NextTrack(), competition.Participants);
 
+            }
         }
        
            

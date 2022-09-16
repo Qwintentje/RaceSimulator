@@ -12,6 +12,7 @@ namespace Model
         public LinkedList<Section> Sections { get; set; }
         public Track(string name, Section[] sections)
         {
+            Name = name;
         }
 
     }

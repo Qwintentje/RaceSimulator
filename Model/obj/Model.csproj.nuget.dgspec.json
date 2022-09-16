@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj": {}
+    "C:\\Users\\quint\\source\\repos\\RaceSimulator\\Model\\Model.csproj": {}
   },
   "projects": {
-    "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj": {
+    "C:\\Users\\quint\\source\\repos\\RaceSimulator\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj",
+        "projectUniqueName": "C:\\Users\\quint\\source\\repos\\RaceSimulator\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj",
+        "projectPath": "C:\\Users\\quint\\source\\repos\\RaceSimulator\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\quint\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\obj\\",
+        "outputPath": "C:\\Users\\quint\\source\\repos\\RaceSimulator\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\quint\\AppData\\Roaming\\NuGet\\NuGet.Config",

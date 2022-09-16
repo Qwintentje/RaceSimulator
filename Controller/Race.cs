@@ -18,15 +18,11 @@ namespace Controller
 
         public SectionData GetSectionData(Section section)
         {
-            if (_positions[section] != null)
-            {
-                return _positions[section];
-            }
-            else
+            if (_positions[section] == null)
             {
                 _positions.Add(section, new SectionData());
-                return _positions[section];
             }
+            return _positions[section];
         }
         public Race(Track track, List<IParticipant> participants)
         {
@@ -36,15 +32,16 @@ namespace Controller
 
         public void RandomizeEquipment()
         {
-            foreach (var participant in Participants)
+            foreach (IParticipant participent in Participants)
             {
-                var performance_ = new Random();
-                int performance = Convert.ToInt32(performance_);
-                var quality_ = new Random();
-                int quality = Convert.ToInt32(quality_);
-                participant.Equipment.Performance = performance;
-                participant.Equipment.Quality = quality;
+                participent.Equipment.Performance = Convert.ToInt32(new Random(DateTime.Now.Millisecond));
+                participent.Equipment.Quality = Convert.ToInt32(new Random(DateTime.Now.Millisecond));
             }
         }
+
+/*        public static implicit operator Race(Track v)
+        {
+            throw new NotImplementedException();
+        }*/
     }
 }
