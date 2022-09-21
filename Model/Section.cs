@@ -8,6 +8,7 @@ namespace Model
 {
     public class Section
     {
+        public SectionTypes SectionType { get; set; }
         public enum SectionTypes
         {
             Straigth,
@@ -15,11 +16,6 @@ namespace Model
             RightCorner,
             StartGrid,
             Finish
-        }
-        public SectionTypes SectionType
-        {
-            get;
-            set;
         }
     }
 }

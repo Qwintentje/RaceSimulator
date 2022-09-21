@@ -38,10 +38,10 @@ namespace Controller
                 participent.Equipment.Quality = Convert.ToInt32(new Random(DateTime.Now.Millisecond));
             }
         }
-
-/*        public static implicit operator Race(Track v)
+        public void placeParticipants(Track track, List<IParticipant> participants)
         {
-            throw new NotImplementedException();
-        }*/
+
+        }
+
     }
 }

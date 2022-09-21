@@ -33,7 +33,7 @@ namespace Controller
 
         public static void addTracks()
         {
-            Track track = new Track("test", new Section[1]);
+            Track track = new Track("Super coole track", new Section[1]);
             competition.Tracks.Enqueue(track);
         }
 
