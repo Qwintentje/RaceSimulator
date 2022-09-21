@@ -18,12 +18,17 @@ namespace Controller
 
         public SectionData GetSectionData(Section section)
         {
-            if (_positions[section] == null)
+            SectionData value = _positions.GetValueOrDefault(section, null);
+
+            if (value == null)
             {
-                _positions.Add(section, new SectionData());
+                value = new SectionData(null, 0, null, 0);
+                _positions.Add(section, value);
             }
-            return _positions[section];
+
+            return value;
         }
+
         public Race(Track track, List<IParticipant> participants)
         {
             Track = track;
@@ -41,7 +46,9 @@ namespace Controller
         public void placeParticipants(Track track, List<IParticipant> participants)
         {
 
-        }
+        }   
+
+
 
     }
 }
