@@ -36,6 +36,7 @@ namespace Controller
             Track track = new Track("Super coole track", new Section[1]);
             competition.Tracks.Enqueue(track);
         }
+<<<<<<< Updated upstream
 
         public static void NextRace()
         {
@@ -46,6 +47,9 @@ namespace Controller
             }
         }
        
+=======
+        
+>>>>>>> Stashed changes
            
     }
 }
