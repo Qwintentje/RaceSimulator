@@ -37,6 +37,7 @@ namespace Controller
             competition.Tracks.Enqueue(track);
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
         public static void NextRace()
         {
@@ -48,6 +49,8 @@ namespace Controller
         }
        
 =======
+=======
+>>>>>>> Stashed changes
         
 >>>>>>> Stashed changes
            
