@@ -17,5 +17,9 @@ namespace Model
             StartGrid,
             Finish
         }
+        public Section(SectionTypes sectionType)
+        {
+            SectionType = sectionType;
+        }
     }
 }

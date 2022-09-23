@@ -11,18 +11,18 @@ namespace Model
     {
         public string Name { get; set; }
         public LinkedList<Section> Sections { get; set; }
-        public Track(string name, Section[] sections)
+        public Track(string name, SectionTypes[] sections)
         {
             Name = name;
             Sections = ArrayToLinkedList(sections);
         }
 
-        public LinkedList<Section> ArrayToLinkedList(Section[] sections)
+        public LinkedList<Section> ArrayToLinkedList(SectionTypes[] sections)
         {
             LinkedList<Section> linkedList = new LinkedList<Section>();
-            foreach (var section in sections)
+            foreach (var sectionType in sections)
             {
-                linkedList.AddLast(section);
+                linkedList.AddLast(new Section(sectionType));
             }
 
             return linkedList;

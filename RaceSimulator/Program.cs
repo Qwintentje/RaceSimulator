@@ -1,6 +1,7 @@
 ﻿using Controller;
 using Model;
 using RaceSimulator;
+using static Model.Section;
 
 namespace Main
 {   public class Program
@@ -10,7 +11,8 @@ namespace Main
             Data.Initialize();
             Data.NextRace();
 
-            TrackVisualization.drawTrack(new Track("zandvoort", new Section[1]));
+            new Race(new Track("Yolo", new SectionTypes[] { SectionTypes.StartGrid }), Data.competition.Participants);
+            TrackVisualization.drawTrack(new Track("Yolo", new SectionTypes[] { SectionTypes.StartGrid }));
 
             for (; ; )
             {

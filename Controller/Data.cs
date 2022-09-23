@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
+using static Model.Section;
 
 namespace Controller
 {
@@ -27,17 +28,17 @@ namespace Controller
         }
         public static void addParticipant()
         {
-//            Driver driver = new Driver();
-            competition.Participants.Add(new Driver());
+            Driver driver = new Driver();
+            driver.Equipment = new Car(100, 100, 100, false);
+            competition.Participants.Add(driver);
         }
 
         public static void addTracks()
         {
-            Track track = new Track("Super coole track", new Section[1]);
+            Track track = new Track("Super coole track", new SectionTypes[] {SectionTypes.StartGrid});
             competition.Tracks.Enqueue(track);
         }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
 
         public static void NextRace()
         {
@@ -48,11 +49,6 @@ namespace Controller
             }
         }
        
-=======
-=======
->>>>>>> Stashed changes
-        
->>>>>>> Stashed changes
-           
+
     }
 }

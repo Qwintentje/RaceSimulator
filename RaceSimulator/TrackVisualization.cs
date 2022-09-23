@@ -7,8 +7,12 @@ using Model;
 
 namespace RaceSimulator
 {
-    internal static class TrackVisualization
+
+    public static class TrackVisualization
     {
+        public static int origRow;
+        public static int origCol;
+
         #region graphics
 
 
@@ -77,7 +81,7 @@ namespace RaceSimulator
             "|     |",
         };
 
-        private static readonly string[] _rightCornerVertical =
+        private static readonly string[] _rightCornerVerticalDown =
         {
             @"------\",
              "      |",
@@ -88,9 +92,26 @@ namespace RaceSimulator
              "|     |",
         };
 
-        private static readonly string[] _leftCornerVertical =
+
+
+
+
+        private static readonly string[] _rightCornerHorizontalUp =
+            {
+            "/------",
+            "|      ",
+            "|   #  ",
+            "|      ",
+            "|   #  ",
+            "|      ",
+            "|     /"
+        };
+
+
+
+        private static readonly string[] _leftCornerVerticalUp =
         {
-             "|     |",
+             "/     |",
              "      |",
              "      |",
              "      |",
@@ -99,35 +120,70 @@ namespace RaceSimulator
              "------/",
         };
 
-        private static readonly string[] _rightCornerHorizontal =
-            {
-            "/------",
-            "|      ",
-            "|   #  ",
-            "|      ",
-            "|   #  ",
-            "|      ",
-            "|     -"
+                private static readonly string[] _rightCornerVerticalUp =
+{
+             @"|     \",
+             "|      ",
+             "|      ",
+             "|      ",
+             "|      ",
+             "|      ",
+            @"\------",
         };
 
-        private static readonly string[] _leftCornerHorizontal =
-        {
-            "-------",
+        private static readonly string[] _leftCornerHorizontalDown =
+{
+           @"|     \",
+            "|      ",
+            "|  #   ",
+            "|      ",
+            "|  #   ",
+            "|      ",
+           @"\------"
+
+        };
+
+        private static readonly string[] _leftCornerHorizontalUp =
+{
+           @"------\",
             "      |",
             "   #  |",
             "      |",
             "   #  |",
             "      |",
-            "-      "
+           @"\      "
 
         };
 
 
         #endregion
 
+        public static void WriteAt(string[] s, int x, int y)
+        {
+            try
+            {
+                
+                foreach (string line in s)
+                {
+                    Console.SetCursorPosition(origCol + x, origRow + y);
+                    Console.WriteLine(line);
+                    //x += 1;
+                    y += +1;
+
+                }
+
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.Clear();
+                Console.WriteLine(e.Message);
+            }
+        }
         public static void drawTrack(Track track)
         {
-            Console.WriteLine(track);  
+
+
+
         }
     }
 }
