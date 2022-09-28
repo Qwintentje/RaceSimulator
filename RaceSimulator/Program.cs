@@ -6,6 +6,7 @@ using static Model.Section;
 namespace Main
 {   public class Program
     {
+
         static void Main(string[] args)
         {
             Data.Initialize();
@@ -18,8 +19,8 @@ namespace Main
             {
                 Thread.Sleep(100);
             }
-
-
+          
+            
         }
     }
 }
