@@ -12,5 +12,10 @@ namespace Model
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
         public IParticipant.TeamColors TeamColor { get; set; }
+
+        public Driver(String name)
+        {
+            this.Name = name;
+        }
     }
 }

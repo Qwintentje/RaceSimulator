@@ -1,9 +1,13 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Controller
 {
@@ -14,14 +18,22 @@ namespace Controller
         public DateTime StartTime { get; set; }
         private Random _random;
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
-
+        private const int timerInterval = 500;
+        private System.Timers.Timer aTimer;
+        
         public Race(Track track, List<IParticipant> participants)
         {
             _random = new Random(DateTime.Now.Millisecond);
             Track = track;
+            
             Participants = participants;
+            aTimer = new System.Timers.Timer(timerInterval);
+            aTimer.Elapsed += OnTimedEvents;
             Initialize();
         }
+
+        public event EventHandler DriversChanged;
+
 
         public void Initialize()
         {
@@ -55,8 +67,6 @@ namespace Controller
             return startGrid;
         }
 
-
-
         public void RandomizeEquipment()
         {
             foreach (IParticipant participent in Participants)
@@ -66,6 +76,7 @@ namespace Controller
                 participent.Equipment.Quality = Convert.ToInt32(rNum.Next(0, 100));
             }
         }
+        
         public void AddParticipantsToTrack(Track track, List<IParticipant> Participants)
         {
             int currentDriver = 0;
@@ -107,6 +118,15 @@ namespace Controller
             }
         }
 
+        public void OnTimedEvents(object o, ElapsedEventArgs e)
+        {
+            
+        }
+
+        public void Start()
+        {
+            aTimer.Start();
+        }
 
 
     }

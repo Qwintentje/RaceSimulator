@@ -28,7 +28,7 @@ namespace Controller
         }
         public static void addParticipant()
         {
-            Driver driver = new Driver();
+            Driver driver = new Driver("test");
             driver.Equipment = new Car(100, 100, 100, false);
             competition.Participants.Add(driver);
         }
@@ -48,7 +48,5 @@ namespace Controller
 
             }
         }
-       
-
     }
 }
