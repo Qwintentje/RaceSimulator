@@ -1,13 +1,5 @@
-﻿using Model;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
+﻿using System.Timers;
+using Model;
 
 namespace Controller
 {
@@ -16,83 +8,59 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
-        private Random _random;
-        private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
-        private const int timerInterval = 500;
-        private System.Timers.Timer aTimer;
-        
+        private Random _random = new Random();
+        public static Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
+        public System.Timers.Timer timer;
+        private int _interval = 500;
         public Race(Track track, List<IParticipant> participants)
         {
-            _random = new Random(DateTime.Now.Millisecond);
             Track = track;
-            
             Participants = participants;
-            aTimer = new System.Timers.Timer(timerInterval);
-            aTimer.Elapsed += OnTimedEvents;
+            _random = new Random(DateTime.Now.Millisecond);
+            timer = new System.Timers.Timer(_interval);
+            timer.Elapsed += OnTimedEvent;
+            
+            StartTimer();
             Initialize();
         }
-
-        public event EventHandler DriversChanged;
-
-
+        public void StartTimer()
+        {
+            timer.Start();
+        }
         public void Initialize()
         {
-            AddParticipantsToTrack(Track, Participants);
             RandomizeEquipment();
-        } 
-
-        public SectionData GetSectionData(Section section)
-        {
-            if (_positions.ContainsKey(section))
-            {
-                return _positions[section];
-            }
-            else
-            {
-                _positions.Add(section, new SectionData());
-                return _positions[section];
-            }
+            AddParticipantsToTrack(Track, Participants);
         }
 
-        public Stack<Section> GetStartGrid(Track track)
-        {
-            var startGrid = new Stack<Section>();
-            foreach (var section in track.Sections)
-            {
-                if (Section.SectionTypes.StartGrid == section.SectionType)
-                {
-                    startGrid.Push(section);
-                }
-            }
-            return startGrid;
-        }
-
-        public void RandomizeEquipment()
-        {
-            foreach (IParticipant participent in Participants)
-            {
-                Random rNum = new Random(DateTime.Now.Millisecond);
-                participent.Equipment.Performance = Convert.ToInt32(rNum.Next(0, 100));
-                participent.Equipment.Quality = Convert.ToInt32(rNum.Next(0, 100));
-            }
-        }
-        
         public void AddParticipantsToTrack(Track track, List<IParticipant> Participants)
         {
-            int currentDriver = 0;
             int driversRemaining = Participants.Count;
 
-
             if (driversRemaining < 3) return;
-            //Console.WriteLine("Huidige track: " + track.Name);
+            Console.WriteLine("Huidige track: " + track.Name);
             Stack<Section> startGrid = GetStartGrid(track);
-            PlaceParticipantsOnTrack(startGrid, currentDriver, driversRemaining, Participants);
+            PlaceParticipantsOnTrack();
         }
 
-        public void PlaceParticipantsOnTrack(Stack<Section> startGrid, int currentDriver, int driversRemaining, List<IParticipant> participants)
+        public void PlaceParticipantsOnTrack()
         {
+            if (Participants == null) return;
+
+            foreach (var participant in Participants)
+            {
+                foreach (var section in Track.Sections)
+                {
+                    var sectionData = GetSectionData(section);
+                    if (sectionData != null && sectionData.AddParticipantToSection(participant))
+                    {
+                        break;
+                    }
+                }
+            }
+
             //Zeker weten dat startGrid groter dan 0 is voordat we beginnen met toevoegen
-            while (startGrid.Count > 0)
+            /** while (startGrid.Count > 0)
             {
                 //krijg eerste van de stack, oftewel de start.
                 var startSection = startGrid.Pop();
@@ -115,19 +83,51 @@ namespace Controller
                     driversRemaining--;
                     currentDriver++;
                 }
+            } **/
+        }
+
+        public SectionData GetSectionData(Section section)
+        {
+            if (_positions.ContainsKey(section))
+            {
+                return _positions[section];
+            }
+            else
+            {
+                _positions.Add(section, new SectionData());
+                return _positions[section];
             }
         }
 
-        public void OnTimedEvents(object o, ElapsedEventArgs e)
+        public static Stack<Section> GetStartGrid(Track track)
         {
-            
+            var startGrid = new Stack<Section>();
+            foreach (var section in track.Sections)
+            {
+                if (Section.SectionTypes.StartGrid == section.SectionType)
+                {
+                    startGrid.Push(section);
+                }
+            }
+            return startGrid;
         }
 
-        public void Start()
+        public void RandomizeEquipment()
         {
-            aTimer.Start();
+            foreach (var participant in Participants)
+            {
+                Random rNum = new Random(DateTime.Now.Millisecond);
+                participant.Equipment.Quality = Convert.ToInt32(rNum.Next(0, 100));
+                participant.Equipment.Performance = Convert.ToInt32(rNum.Next(0, 100));
+            }
         }
 
+        public event EventHandler<DriversChangedEventArgs?> DriversChanged;
+        
+        private void OnTimedEvent(object? src, ElapsedEventArgs e)
+        {
+            DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+        }
 
     }
 }

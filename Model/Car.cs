@@ -29,10 +29,8 @@ namespace Model
             set;
         }
 
-        public Car(int quality, int performance, int speed, bool isBroken)
+        public Car(int speed, bool isBroken)
         {
-            Quality = quality;
-            Performance = performance;
             Speed = speed;
             IsBroken = isBroken;
         }   

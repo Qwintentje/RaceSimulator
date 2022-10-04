@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Controller;
 using Model;
+using static Model.Section;
 
 namespace RaceSimulator
 {
 
     public static class TrackVisualization
     {
-        public static int origRow;
-        public static int origCol;
-
+        private static Track _track;
+        private static Race _currentRace;
+        private static Direction _currentDirection = Direction.East;
+        private static int _posX;
+        private static int _posY;
 
 
         #region graphics
@@ -195,81 +199,193 @@ namespace RaceSimulator
 
         #endregion
 
-        public static void WriteAt(string[] s, int x, int y)
+        public static void Initialize(Race race)
         {
-            try
-            {
+            _currentRace = race;
+            _track = _currentRace.Track;
 
-                foreach (string line in s)
+            InitializeConsole();
+            DrawTrack(_track);
+            _currentRace.DriversChanged += OnDriversChanged;
+        }
+
+        public static void InitializeConsole()
+        {
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
+        }
+        public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
+        {
+            DrawTrack(e.Track);
+        }
+
+        public static void DrawTrack(Track track)
+        {
+            _posX = 50; 
+            _posY = 10;
+
+            Console.SetCursorPosition(_posX, _posY);
+
+            foreach (Section section in track.Sections)
+            {
+                DrawSection(section);
+            }
+        }
+
+        public static void DrawSection(Section section)
+        {
+            string[] sectionToDraw = VisualizeParticipantsOnTrack(GetSectionVisualization(section.SectionType, _currentDirection), _currentRace.GetSectionData(section));
+            int currentY = _posY;
+
+            foreach (string s in sectionToDraw)
+            {
+                try
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkGray;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.SetCursorPosition(origCol + x, origRow + y);
-                    Console.WriteLine(line);                  
-                    y += +1;
-
+                    Console.SetCursorPosition(_posX, currentY);
                 }
-
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Console.Clear();
-                Console.WriteLine(e.Message);
-            }
-        }
-        public static void drawTrack(Track track)
-        {
-            WriteAt(_startHorizontal, 20, 0);
-            WriteAt(_straigthHorizontal, 27, 0);
-            WriteAt(_rightCornerVerticalDown, 34, 0);
-            WriteAt(_straigthVerticalDown, 34, 7);
-            WriteAt(_leftCornerHorizontalDown, 34, 14);
-            WriteAt(_straigthHorizontal, 41, 14);
-            WriteAt(_straigthHorizontal, 48, 14);
-            WriteAt(_rightCornerVerticalDown, 55, 14);
-            WriteAt(_rightCornerHorizontalDown, 55, 21);
-            WriteAt(_straigthHorizontal, 48, 21);
-            WriteAt(_straigthHorizontal, 41, 21);
-            WriteAt(_leftCornerVerticalDown, 34, 21);
-            WriteAt(_rightCornerHorizontalDown, 34, 28);
-            WriteAt(_straigthHorizontal, 27, 28);
-            WriteAt(_rightCornerVerticalUp, 20, 28);
-            WriteAt(_straigthVerticalUp, 20, 21);
-            WriteAt(_leftCornerHorizontalUp, 20, 14);
-            WriteAt(_straigthHorizontal, 13, 14);
-            WriteAt(_straigthHorizontal, 6, 14);
-            WriteAt(_rightCornerVerticalUp, 0, 14);
-            WriteAt(_straigthVerticalUp, 0, 7);
-            WriteAt(_rightCornerHorizontalUp, 0, 0);
-            WriteAt(_straigthHorizontal, 7, 0);
-            WriteAt(_straigthHorizontal, 14, 0);
-        }
-
-
-        public static string VisualizeParticipantsOnTrack(IParticipant p1, IParticipant p2, string[] s)
-        {
-            p1.Name.Substring(0, 1);
-            string p1Name = p1.Name;
-            string p2Name = p2.Name;
-            var p2Char = p2Name[0];
-            var p1Char = p1Name[0];
-            //create array of all arrays in region and loop through them
-            string[][] allArrays = new string[][] { _startHorizontal, _straigthHorizontal, _rightCornerVerticalDown, _straigthVerticalDown, _leftCornerHorizontalDown, _straigthHorizontal, _straigthHorizontal, _rightCornerVerticalDown, _rightCornerHorizontalDown, _straigthHorizontal, _straigthHorizontal, _leftCornerVerticalDown, _rightCornerHorizontalDown, _straigthHorizontal, _rightCornerVerticalUp, _straigthVerticalUp, _leftCornerHorizontalUp, _straigthHorizontal, _straigthHorizontal, _rightCornerVerticalUp, _straigthVerticalUp, _rightCornerHorizontalUp, _straigthHorizontal, _straigthHorizontal };
-            foreach (string[] array in allArrays)
-            {
-                for (int i = 0; i < array.Length; i++)
+                catch (ArgumentOutOfRangeException e)
                 {
-                    if (array[i].Contains("1"))
-                    {
-                        array[i] = array[i].Replace("1", p1Char.ToString());
-                    }
-                    if (array[i].Contains("2"))
-                    {
-                        array[i] = array[i].Replace("2", p2Char.ToString());
-                    }
+                    Console.Clear();
+                    Console.WriteLine(e.Message);
                 }
+                Console.WriteLine(s);
+                currentY++;
             }
-            return " ";
+
+            UpdateDirection(section.SectionType);
+            UpdateCursorPosition();
         }
+
+        public static string[] VisualizeParticipantsOnTrack(string[] sectionRow, SectionData sectionData)
+        {
+            string[] retValue = new String[sectionRow.Length];
+            string left = " ";
+            string right = " ";
+
+            if (sectionData.Left != null)
+            {
+                left = sectionData.Left.Name.Substring(0, 1);
+            }
+
+            if (sectionData.Right != null)
+            {
+                right = sectionData.Right.Name.Substring(0, 1);
+            }
+
+            for (int i = 0; i < sectionRow.Length; i++)
+            {
+                retValue[i] = sectionRow[i].Replace("1", left).Replace("2", right);
+            }
+
+            return retValue;
+        }
+
+        //Methode om de Direction te updaten wanneer een corner wordt bereikt
+        public static void UpdateDirection(SectionTypes sectionType)
+        {
+            switch (sectionType)
+            {
+                case SectionTypes.LeftCorner:
+                    if (_currentDirection == Direction.North)
+                    {
+                        _currentDirection = Direction.West;
+                    }
+                    else if (_currentDirection == Direction.East)
+                    {
+                        _currentDirection = Direction.North;
+                    }
+                    else if (_currentDirection == Direction.South)
+                    {
+                        _currentDirection = Direction.East;
+                    }
+                    else if (_currentDirection == Direction.West)
+                    {
+                        _currentDirection = Direction.South;
+                    }
+                    break;
+                case SectionTypes.RightCorner:
+                    if (_currentDirection == Direction.North)
+                    {
+                        _currentDirection = Direction.East;
+                    }
+                    else if (_currentDirection == Direction.East)
+                    {
+                        _currentDirection = Direction.South;
+                    }
+                    else if (_currentDirection == Direction.South)
+                    {
+                        _currentDirection = Direction.West;
+                    }
+                    else if (_currentDirection == Direction.West)
+                    {
+                        _currentDirection = Direction.North;
+                    }
+                    break;
+            }
+        }
+
+        //Methode om de cursor position aan te passen 
+        public static void UpdateCursorPosition()
+        {
+            switch (_currentDirection)
+            {
+                case Direction.North:
+                    _posY -= 7;
+                    break;
+                case Direction.East:
+                    _posX += 7;
+                    break;
+                case Direction.South:
+                    _posY += 7;
+                    break;
+                case Direction.West:
+                    _posX -= 7;
+                    break;
+            }
+        }
+
+        private static string[] GetSectionVisualization(SectionTypes sectionType, Direction direction)
+        {
+            return sectionType switch
+            {
+                SectionTypes.StartGrid => _startHorizontal,
+                SectionTypes.Finish => direction switch
+                {
+                    Direction.North => _finishVertical,
+                    Direction.East => _finishHorizontal,
+                    Direction.South => _finishVertical,
+                    Direction.West => _finishHorizontal,
+                    _ => throw new NotImplementedException()
+                },
+                SectionTypes.Straight => direction switch
+                {
+                    Direction.North => _straigthVerticalUp,
+                    Direction.East => _straigthHorizontal,
+                    Direction.South => _straigthVerticalDown,
+                    Direction.West => _straigthHorizontal,
+                    _ => throw new NotImplementedException()
+                },
+                SectionTypes.RightCorner => direction switch
+                {
+                    Direction.North => _rightCornerHorizontalUp,
+                    Direction.East => _rightCornerVerticalDown,
+                    Direction.South => _rightCornerHorizontalDown,
+                    Direction.West => _rightCornerVerticalUp,
+                    _ => throw new NotImplementedException()
+                },
+                SectionTypes.LeftCorner => direction switch
+                {
+                    Direction.North => _leftCornerHorizontalUp,
+                    Direction.East => _leftCornerVerticalUp,
+                    Direction.South => _leftCornerHorizontalDown,
+                    Direction.West => _leftCornerVerticalDown,
+                    _ => throw new NotImplementedException()
+                },
+                _ => throw new NotImplementedException()
+            };
+        }
+
+
+
     }
 }

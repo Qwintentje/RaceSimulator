@@ -12,10 +12,16 @@ namespace Model
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
         public IParticipant.TeamColors TeamColor { get; set; }
+        
+        public float SectionSpeed { get; set; }
 
-        public Driver(String name)
+        public Driver(String name, int points, IEquipment equipment, IParticipant.TeamColors teamColor)
         {
-            this.Name = name;
+            Name = name;
+            Points = points;
+            Equipment = equipment;
+            TeamColor = teamColor;
+            SectionSpeed = 100 / (Equipment.Speed * Equipment.Performance);
         }
     }
 }

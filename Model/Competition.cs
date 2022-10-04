@@ -12,16 +12,12 @@ namespace Model
         public Queue<Track> Tracks { get; set; }
         public Competition()
         {
-            this.Participants = new List<IParticipant>();
-            this.Tracks = new Queue<Track>();
+            Participants = new List<IParticipant>();
+            Tracks = new Queue<Track>();
         }
         public Track NextTrack()
         {
-            if (!Tracks.Any())
-            {
-                return null;
-            }
-            return Tracks.Dequeue();
+            return Tracks.Count > 0 ? Tracks.Dequeue() : null;
         }
 
     }
