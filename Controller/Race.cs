@@ -12,7 +12,10 @@ namespace Controller
         public static Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
         public System.Timers.Timer timer;
         private int _interval = 500;
+        public int SectionLength { get; set; } = 100;
         public Race(Track track, List<IParticipant> participants)
+
+            
         {
             Track = track;
             Participants = participants;
@@ -116,12 +119,12 @@ namespace Controller
         {
             foreach (var participant in Participants)
             {
-                Random rNum = new Random(DateTime.Now.Millisecond);
-                participant.Equipment.Quality = Convert.ToInt32(rNum.Next(0, 100));
-                participant.Equipment.Performance = Convert.ToInt32(rNum.Next(0, 100));
+                participant.Equipment.Quality = Convert.ToInt32(_random.Next(1, 10));
+                participant.Equipment.Performance = Convert.ToInt32(_random.Next(1, 10));
+                participant.Equipment.SectionSpeed = SectionLength / (participant.Equipment.Performance * participant.Equipment.Speed);
             }
         }
-
+        
         public event EventHandler<DriversChangedEventArgs?> DriversChanged;
         
         private void OnTimedEvent(object? src, ElapsedEventArgs e)
@@ -129,5 +132,6 @@ namespace Controller
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
         }
 
+        
     }
 }

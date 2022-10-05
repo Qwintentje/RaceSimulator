@@ -8,6 +8,7 @@
         public int DistanceRight { get; set; }
         public DateTime StartTimeLeft { get; set; }
         public DateTime StartTimeRight { get; set; }
+        
         public SectionData(IParticipant left, int distanceLeft, IParticipant right, int distanceRight)
         {
             Left = left;

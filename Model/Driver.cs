@@ -14,14 +14,15 @@ namespace Model
         public IParticipant.TeamColors TeamColor { get; set; }
         
         public float SectionSpeed { get; set; }
+        public int LapsDriven { get; set; }
 
-        public Driver(String name, int points, IEquipment equipment, IParticipant.TeamColors teamColor)
+        public Driver(string name, int points, IEquipment equipment, IParticipant.TeamColors teamColor)
         {
             Name = name;
             Points = points;
             Equipment = equipment;
             TeamColor = teamColor;
-            SectionSpeed = 100 / (Equipment.Speed * Equipment.Performance);
         }
+
     }
 }

@@ -32,11 +32,11 @@ namespace Controller
 
         public static void addParticipant(Competition competition)
         {
-            competition.Participants.Add(new Driver("Johan", 0, new Car( 100, false), TeamColors.Red));
-            competition.Participants.Add(new Driver("Geral", 0, new Car( 100, false), TeamColors.Blue));
-            competition.Participants.Add(new Driver("Bastiaan", 0, new Car( 100, false), TeamColors.Green));
-            competition.Participants.Add(new Driver("Jan Willem", 0, new Car( 100, false), TeamColors.Yellow));
-            competition.Participants.Add(new Driver("Valentijn", 0, new Car( 100, false), TeamColors.Blue));
+            competition.Participants.Add(new Driver("Johan", 0, new Car(), TeamColors.Red));
+            competition.Participants.Add(new Driver("Geral", 0, new Car(), TeamColors.Blue));
+            competition.Participants.Add(new Driver("Bastiaan", 0, new Car(), TeamColors.Green));
+            competition.Participants.Add(new Driver("Jassie", 0, new Car(), TeamColors.Green));
+            competition.Participants.Add(new Driver("Miranda", 0, new Car(), TeamColors.Green));
         }
 
         public static void addTracks(Competition competition)
@@ -68,7 +68,7 @@ namespace Controller
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
                 SectionTypes.Straight,
-                SectionTypes.Straight
+                SectionTypes.Finish
             }));
 
             competition.Tracks.Enqueue(new Track("Constantijn", new SectionTypes[]

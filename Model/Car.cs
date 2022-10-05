@@ -29,10 +29,13 @@ namespace Model
             set;
         }
 
-        public Car(int speed, bool isBroken)
+        public float SectionSpeed { get; set; }
+        public Car()
         {
-            Speed = speed;
-            IsBroken = isBroken;
+            Speed = 10;
+            IsBroken = false;
+            
+
         }   
     }
 }

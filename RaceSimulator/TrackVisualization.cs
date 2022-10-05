@@ -26,9 +26,11 @@ namespace RaceSimulator
         private static readonly string[] _finishHorizontal =
             {
             "-------",
+            "       ",
             "   1   ",
             "       ",
             "   2   ",
+            "       ",
             "-------"
         };
 
@@ -217,6 +219,7 @@ namespace RaceSimulator
         public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
             DrawTrack(e.Track);
+            
         }
 
         public static void DrawTrack(Track track)
