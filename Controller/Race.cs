@@ -1,35 +1,38 @@
-﻿using System.Timers;
-using Model;
+﻿using Model;
+using System.Security.AccessControl;
+using System.Timers;
+using static Model.Section;
+using Timer = System.Timers.Timer;
 
 namespace Controller
 {
     public class Race
     {
+        public const int SectionLength = 300;
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
         private Random _random = new Random();
+        private Timer _timer;
         public static Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
-        public System.Timers.Timer timer;
-        private int _interval = 500;
-        public int SectionLength { get; set; } = 100;
+        private int interval = 500;
         public Race(Track track, List<IParticipant> participants)
-
-            
         {
             Track = track;
             Participants = participants;
             _random = new Random(DateTime.Now.Millisecond);
-            timer = new System.Timers.Timer(_interval);
-            timer.Elapsed += OnTimedEvent;
-            
+            _timer = new Timer(interval);
+            _timer.Elapsed += OnTimedEvent;
+
             StartTimer();
             Initialize();
         }
+
         public void StartTimer()
         {
-            timer.Start();
+            _timer.Start();
         }
+
         public void Initialize()
         {
             RandomizeEquipment();
@@ -49,11 +52,12 @@ namespace Controller
         public void PlaceParticipantsOnTrack()
         {
             if (Participants == null) return;
-
-            foreach (var participant in Participants)
+            Participants.Reverse();
+            foreach (Driver participant in Participants)
             {
                 foreach (var section in Track.Sections)
                 {
+
                     var sectionData = GetSectionData(section);
                     if (sectionData != null && sectionData.AddParticipantToSection(participant))
                     {
@@ -89,6 +93,87 @@ namespace Controller
             } **/
         }
 
+        private void MoveParticipants()
+        {
+            foreach(Section section in Track.Sections)
+            {
+                SectionData sectionData = GetSectionData(section);
+
+                foreach (IParticipant participant in Participants)
+                {
+                    int speed = participant.Equipment.Performance * participant.Equipment.Speed;
+                    if(sectionData.Left != null)
+                    {
+                        sectionData.DistanceLeft += speed;
+                        if (sectionData.DistanceLeft > SectionLength)
+                        {
+                            var next = Track.Sections.Find(section)?.Next;
+                            if (Track.Sections.First != null)
+                            {
+                                Section nextSection;
+                                if (next != null)
+                                {
+                                    nextSection = next.Value;
+                                }
+                                else
+                                {
+                                    nextSection = Track.Sections.First.Value;
+                                }
+
+                                SectionData nextSectionData = GetSectionData(nextSection);
+                                if (nextSectionData.AddParticipantToSection(participant))
+                                {
+                                    nextSectionData.DistanceLeft = sectionData.DistanceLeft - SectionLength;
+                                    sectionData.Left = null;
+                                    sectionData.DistanceLeft = 0;
+                                    
+                                    if(section.SectionType == SectionTypes.Finish)
+                                    {
+                                       // Console.WriteLine($"{participant.Name} is over de finish gegaan");
+                                    }
+                                //    Console.WriteLine("naar volgende ggn");
+                                }
+                            }
+                            
+                        }
+                    }
+
+                    if(sectionData.Right != null)
+                    {
+                        sectionData.DistanceRight += speed;
+                        if (sectionData.DistanceRight > SectionLength)
+                        {
+                            var next = Track.Sections.Find(section)?.Next;
+                            if (Track.Sections.First != null)
+                            {
+                                Section nextSection;
+                                if (next != null)
+                                {
+                                    nextSection = next.Value;
+                                } else
+                                {
+                                    nextSection = Track.Sections.First.Value;
+                                }
+                                SectionData nextSectionData = GetSectionData(nextSection);
+                                if (nextSectionData.AddParticipantToSection(participant))
+                                {
+                                    nextSectionData.DistanceRight = sectionData.DistanceRight - SectionLength;
+                                    sectionData.Right = null;
+                                    sectionData.DistanceRight = 0;
+
+                                    if (section.SectionType == SectionTypes.Finish)
+                                    {
+                                        //   Console.WriteLine($"{participant.Name} is over de finish gegaan");
+                                    }
+                                    //    Console.WriteLine("naar volgende ggn");
+                                } 
+                            }
+                        } 
+                    }
+                }
+            }
+        }
+
         public SectionData GetSectionData(Section section)
         {
             if (_positions.ContainsKey(section))
@@ -117,21 +202,22 @@ namespace Controller
 
         public void RandomizeEquipment()
         {
-            foreach (var participant in Participants)
+            foreach (IParticipant participant in Participants)
             {
                 participant.Equipment.Quality = Convert.ToInt32(_random.Next(1, 10));
                 participant.Equipment.Performance = Convert.ToInt32(_random.Next(1, 10));
-                participant.Equipment.SectionSpeed = SectionLength / (participant.Equipment.Performance * participant.Equipment.Speed);
+             //   participant.Equipment.SectionSpeed = 100 / (participant.Equipment.Speed * participant.Equipment.Performance);
             }
         }
-        
+
+        #region Events
         public event EventHandler<DriversChangedEventArgs?> DriversChanged;
-        
-        private void OnTimedEvent(object? src, ElapsedEventArgs e)
+
+        private void OnTimedEvent(object? o, ElapsedEventArgs e)
         {
+            MoveParticipants();
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
         }
-
-        
+        #endregion
     }
 }

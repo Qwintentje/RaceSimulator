@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Controller;
 using Model;
 using static Model.Section;
+using static Controller.Race;
 
 namespace RaceSimulator
 {
@@ -225,10 +226,10 @@ namespace RaceSimulator
         public static void DrawTrack(Track track)
         {
             _posX = 50; 
-            _posY = 10;
+            _posY = 0;
 
             Console.SetCursorPosition(_posX, _posY);
-
+            int i = 1;
             foreach (Section section in track.Sections)
             {
                 DrawSection(section);
@@ -239,7 +240,7 @@ namespace RaceSimulator
         {
             string[] sectionToDraw = VisualizeParticipantsOnTrack(GetSectionVisualization(section.SectionType, _currentDirection), _currentRace.GetSectionData(section));
             int currentY = _posY;
-
+            
             foreach (string s in sectionToDraw)
             {
                 try
@@ -269,17 +270,19 @@ namespace RaceSimulator
             {
                 left = sectionData.Left.Name.Substring(0, 1);
             }
+           
 
             if (sectionData.Right != null)
             {
                 right = sectionData.Right.Name.Substring(0, 1);
             }
+            
 
             for (int i = 0; i < sectionRow.Length; i++)
             {
                 retValue[i] = sectionRow[i].Replace("1", left).Replace("2", right);
             }
-
+            
             return retValue;
         }
 

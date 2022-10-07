@@ -32,11 +32,10 @@ namespace Controller
 
         public static void addParticipant(Competition competition)
         {
-            competition.Participants.Add(new Driver("Johan", 0, new Car(), TeamColors.Red));
-            competition.Participants.Add(new Driver("Geral", 0, new Car(), TeamColors.Blue));
-            competition.Participants.Add(new Driver("Bastiaan", 0, new Car(), TeamColors.Green));
-            competition.Participants.Add(new Driver("Jassie", 0, new Car(), TeamColors.Green));
-            competition.Participants.Add(new Driver("Miranda", 0, new Car(), TeamColors.Green));
+            competition.Participants.Add(new Driver("A", 0, new Car(), TeamColors.Red));
+            competition.Participants.Add(new Driver("B", 0, new Car(), TeamColors.Blue));
+            competition.Participants.Add(new Driver("C", 0, new Car(), TeamColors.Green));
+            competition.Participants.Add(new Driver("D", 0, new Car(), TeamColors.Green));
         }
 
         public static void addTracks(Competition competition)
@@ -44,30 +43,18 @@ namespace Controller
             competition.Tracks.Enqueue(new Track("Felipe", new SectionTypes[]
             {
                 SectionTypes.StartGrid,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.RightCorner,
+                SectionTypes.StartGrid,
                 SectionTypes.RightCorner,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
                 SectionTypes.RightCorner,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
                 SectionTypes.Finish
             }));
 
@@ -77,7 +64,6 @@ namespace Controller
                 SectionTypes.Straight
             }));
         }
-
 
         public static void NextRace()
         {

@@ -17,23 +17,21 @@
             DistanceRight = distanceRight;
         }
 
-        public SectionData()
-        {
-            DistanceLeft = 100;
-            DistanceRight = 100;
-        }
+        public SectionData(){}
 
         public bool AddParticipantToSection(IParticipant participant)
         {
             if (Left == null)
             {
                 Left = participant;
+                DistanceLeft = 0;
                 return true;
             }
 
             if (Right == null)
             {
                 Right = participant;
+                DistanceRight = 0;
                 return true;
             }
 

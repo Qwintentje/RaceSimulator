@@ -1,0 +1,21 @@
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\WPF Applicatie.exe
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\WPF Applicatie.deps.json
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\WPF Applicatie.runtimeconfig.json
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\WPF Applicatie.dll
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\WPF Applicatie.pdb
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.csproj.AssemblyReference.cache
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie_MarkupCompile.cache
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie_MarkupCompile.lref
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.g.resources
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.AssemblyInfoInputs.cache
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.AssemblyInfo.cs
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.csproj.CoreCompileInputs.cache
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.dll
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\refint\WPF Applicatie.dll
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.pdb
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.genruntimeconfig.cache
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\ref\WPF Applicatie.dll

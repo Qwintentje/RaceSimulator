@@ -16,11 +16,6 @@ namespace Main
 
             TrackVisualization.Initialize(Data.CurrentRace);
 
-            foreach (var item in Data.CurrentRace.Participants)
-            {
-                Console.WriteLine(item.Equipment.SectionSpeed);
-            }
-
             for (; ; )
             {
                 Thread.Sleep(100);
