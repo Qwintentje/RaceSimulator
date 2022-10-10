@@ -10,7 +10,7 @@ namespace ControllerTest
     [TestFixture]
     public class Model_Competition_NextTrackShould
     {
-        private Competition _competition { get; set; }
+/*        private Competition _competition { get; set; }
         [SetUp]
         public void SetUp()
         {
@@ -53,6 +53,6 @@ namespace ControllerTest
             Assert.AreEqual(result, t);
             result = _competition.NextTrack();
             Assert.AreEqual(result, t2);
-        }
+        }*/
     }
 }

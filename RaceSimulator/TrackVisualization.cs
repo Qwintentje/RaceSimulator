@@ -19,10 +19,7 @@ namespace RaceSimulator
         private static int _posX;
         private static int _posY;
 
-
         #region graphics
-
-
 
         private static readonly string[] _finishHorizontal =
             {
@@ -217,10 +214,12 @@ namespace RaceSimulator
             Console.Clear();
             Console.SetCursorPosition(0, 0);
         }
+        
         public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
             DrawTrack(e.Track);
             
+
         }
 
         public static void DrawTrack(Track track)
@@ -390,8 +389,5 @@ namespace RaceSimulator
                 _ => throw new NotImplementedException()
             };
         }
-
-
-
     }
 }

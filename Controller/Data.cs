@@ -14,7 +14,7 @@ namespace Controller
     {
         public static Competition Competition { get; set; }
         public static Race CurrentRace { get; set; }
-
+        public static event EventHandler<NextRaceEventArgs?> NextRaceEvent;
 
         public static Competition Initialize(Competition competition)
         {
@@ -64,13 +64,19 @@ namespace Controller
                 SectionTypes.Straight
             }));
         }
-
+            
         public static void NextRace()
         {
+            if (CurrentRace != null)
+            {
+                CurrentRace.Dispose();
+            }
+
             Track nextTrack = Competition.NextTrack();
             if (nextTrack == null || Competition.Participants == null) return;
 
             CurrentRace = new Race(nextTrack, Competition.Participants);
         }
+
    }
 }

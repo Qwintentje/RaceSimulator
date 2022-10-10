@@ -29,7 +29,6 @@ namespace Model
             set;
         }
 
-        public float SectionSpeed { get; set; }
         public Car()
         {
             Speed = 10;

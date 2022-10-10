@@ -12,9 +12,7 @@ namespace Model
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
         public IParticipant.TeamColors TeamColor { get; set; }
-        
         public float SectionSpeed { get; set; }
-        public int LapsDriven { get; set; }
 
         public Driver(string name, int points, IEquipment equipment, IParticipant.TeamColors teamColor)
         {

@@ -16,6 +16,8 @@ namespace Controller
         private Timer _timer;
         public static Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
         private int interval = 500;
+        private readonly Dictionary<IParticipant, int> _lapsDriven;
+        
         public Race(Track track, List<IParticipant> participants)
         {
             Track = track;
@@ -95,80 +97,137 @@ namespace Controller
 
         private void MoveParticipants()
         {
-            foreach(Section section in Track.Sections)
+            for (int i = 0; i < _positions.Count; i++)
             {
-                SectionData sectionData = GetSectionData(section);
-
-                foreach (IParticipant participant in Participants)
+                var CurrentSectionData = _positions.ElementAt(i); //Current Section
+                KeyValuePair<Section, SectionData> NextSectionData; // Next Section
+                if (i == _positions.Count - 1)
                 {
-                    int speed = participant.Equipment.Performance * participant.Equipment.Speed;
-                    if(sectionData.Left != null)
+                    NextSectionData = _positions.ElementAt(0);
+                }
+                else
+                {
+                    NextSectionData = _positions.ElementAt(i + 1);
+                }
+
+                var IsSectionFinish = NextSectionData.Key.SectionType == SectionTypes.Finish;
+
+                //Set speed for DriverPair1 (Current Section)
+                if (CurrentSectionData.Value.Left != null)
+                {
+                    int DriverSpeed;
+                    if (CurrentSectionData.Value.Left.Equipment.IsBroken)
                     {
-                        sectionData.DistanceLeft += speed;
-                        if (sectionData.DistanceLeft > SectionLength)
+                        DriverSpeed = 0;
+                    }
+                    else
+                    {
+                        DriverSpeed = CurrentSectionData.Value.Left.Equipment.Speed * CurrentSectionData.Value.Left.Equipment.Performance;
+                        CurrentSectionData.Value.DistanceLeft += DriverSpeed;
+                    }
+
+                    // If driver crossed Section size threshhold, move participant to next section.
+                    // Else, add DriverSpeed to distance traveled.
+                    if (CurrentSectionData.Value.DistanceLeft >= SectionLength && (NextSectionData.Value.Right == null || NextSectionData.Value.Left == null))
+                    {
+                        if (NextSectionData.Value.Right == null)
                         {
-                            var next = Track.Sections.Find(section)?.Next;
-                            if (Track.Sections.First != null)
+                            if (NextSectionData.Value != null)
                             {
-                                Section nextSection;
-                                if (next != null)
+                                NextSectionData.Value.Right = CurrentSectionData.Value.Left;
+                                if (IsSectionFinish)
                                 {
-                                    nextSection = next.Value;
+                                    if (_lapsDriven.ContainsKey(NextSectionData.Value.Right))
+                                    {
+                                        _lapsDriven[NextSectionData.Value.Right]++;
+                                    }
+                                    else
+                                    {
+                                        _lapsDriven.Add(NextSectionData.Value.Right, 1);
+                                    }
+                                }
+                            }
+                        }
+                        else if (NextSectionData.Value.Left == null)
+                        {
+                            NextSectionData.Value.Left = CurrentSectionData.Value.Left;
+                            if (IsSectionFinish)
+                            {
+                                if (_lapsDriven.ContainsKey(NextSectionData.Value.Left))
+                                {
+                                    _lapsDriven[NextSectionData.Value.Left]++;
                                 }
                                 else
                                 {
-                                    nextSection = Track.Sections.First.Value;
-                                }
-
-                                SectionData nextSectionData = GetSectionData(nextSection);
-                                if (nextSectionData.AddParticipantToSection(participant))
-                                {
-                                    nextSectionData.DistanceLeft = sectionData.DistanceLeft - SectionLength;
-                                    sectionData.Left = null;
-                                    sectionData.DistanceLeft = 0;
-                                    
-                                    if(section.SectionType == SectionTypes.Finish)
-                                    {
-                                       // Console.WriteLine($"{participant.Name} is over de finish gegaan");
-                                    }
-                                //    Console.WriteLine("naar volgende ggn");
+                                    _lapsDriven.Add(NextSectionData.Value.Left, 1);
                                 }
                             }
-                            
                         }
+
+                        //Delete driver info from previous section
+                        CurrentSectionData.Value.DistanceLeft = CurrentSectionData.Value.DistanceLeft - SectionLength;
+                        CurrentSectionData.Value.Left = null;
+                    }
+                    else
+                    {
+                        CurrentSectionData.Value.DistanceLeft += DriverSpeed;
+                    }
+                }
+
+                if (CurrentSectionData.Value.Right != null)
+                {
+                    int DriverSpeed;
+                    if (CurrentSectionData.Value.Right.Equipment.IsBroken)
+                    {
+                        DriverSpeed = 0;
+                    }
+                    else
+                    {
+                        DriverSpeed = CurrentSectionData.Value.Right.Equipment.Speed * CurrentSectionData.Value.Right.Equipment.Performance;
+                        CurrentSectionData.Value.DistanceRight += DriverSpeed;
                     }
 
-                    if(sectionData.Right != null)
+                    // If driver crossed Section size threshhold, move participant to next section.
+                    // Else, add DriverSpeed to distance traveled.
+                    if (CurrentSectionData.Value.DistanceRight >= SectionLength && (NextSectionData.Value.Right == null || NextSectionData.Value.Left == null))
                     {
-                        sectionData.DistanceRight += speed;
-                        if (sectionData.DistanceRight > SectionLength)
+                        if (NextSectionData.Value.Right == null)
                         {
-                            var next = Track.Sections.Find(section)?.Next;
-                            if (Track.Sections.First != null)
+                            if (NextSectionData.Value != null)
                             {
-                                Section nextSection;
-                                if (next != null)
+                                NextSectionData.Value.Right = CurrentSectionData.Value.Right;
+                                if (IsSectionFinish)
                                 {
-                                    nextSection = next.Value;
-                                } else
-                                {
-                                    nextSection = Track.Sections.First.Value;
-                                }
-                                SectionData nextSectionData = GetSectionData(nextSection);
-                                if (nextSectionData.AddParticipantToSection(participant))
-                                {
-                                    nextSectionData.DistanceRight = sectionData.DistanceRight - SectionLength;
-                                    sectionData.Right = null;
-                                    sectionData.DistanceRight = 0;
-
-                                    if (section.SectionType == SectionTypes.Finish)
+                                    if (_lapsDriven.ContainsKey(NextSectionData.Value.Right))
                                     {
-                                        //   Console.WriteLine($"{participant.Name} is over de finish gegaan");
+                                        _lapsDriven[NextSectionData.Value.Right]++;
                                     }
-                                    //    Console.WriteLine("naar volgende ggn");
-                                } 
+                                    else
+                                    {
+                                        _lapsDriven.Add(NextSectionData.Value.Right, 1);
+                                    }
+                                }
                             }
-                        } 
+                        }
+                        else if (NextSectionData.Value.Left == null)
+                        {
+                            NextSectionData.Value.Left = CurrentSectionData.Value.Right;
+                            if (IsSectionFinish)
+                            {
+                                if (_lapsDriven.ContainsKey(NextSectionData.Value.Left))
+                                {
+                                    _lapsDriven[NextSectionData.Value.Left]++;
+                                }
+                                else
+                                {
+                                    _lapsDriven.Add(NextSectionData.Value.Left, 1);
+                                }
+                            }
+                        }
+
+                        //Delete driver from previous section
+                        CurrentSectionData.Value.DistanceRight = CurrentSectionData.Value.DistanceRight - SectionLength;
+                        CurrentSectionData.Value.Right = null;
                     }
                 }
             }
@@ -204,9 +263,9 @@ namespace Controller
         {
             foreach (IParticipant participant in Participants)
             {
-                participant.Equipment.Quality = Convert.ToInt32(_random.Next(1, 10));
-                participant.Equipment.Performance = Convert.ToInt32(_random.Next(1, 10));
-             //   participant.Equipment.SectionSpeed = 100 / (participant.Equipment.Speed * participant.Equipment.Performance);
+                participant.Equipment.Quality = Convert.ToInt32(_random.Next(5, 10));
+                participant.Equipment.Performance = Convert.ToInt32(_random.Next(5, 10));
+                //   participant.Equipment.SectionSpeed = 100 / (participant.Equipment.Speed * participant.Equipment.Performance);
             }
         }
 
@@ -219,5 +278,12 @@ namespace Controller
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
         }
         #endregion
+
+        public void Dispose()
+        {
+            //DriversChanged = null;
+            _positions.Clear();
+            _timer.Stop();
+        }
     }
 }

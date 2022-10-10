@@ -15,6 +15,7 @@ namespace Main
             Data.NextRace();
 
             TrackVisualization.Initialize(Data.CurrentRace);
+            
 
             for (; ; )
             {

@@ -28,9 +28,5 @@ namespace Model
             get;
             set;
        }
-        public float SectionSpeed { get; set; }
-
-
-
     }
 }
