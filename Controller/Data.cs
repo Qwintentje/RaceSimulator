@@ -18,12 +18,12 @@ namespace Controller
 
         public static Competition Initialize(Competition competition)
         {
-            if (competition != null)
+/*            if (competition != null)
             {
                 competition = new Competition();
-            }
+            }*/
             Competition = competition;
-         
+
             addParticipant(competition);
             addTracks(competition);
 
@@ -64,19 +64,36 @@ namespace Controller
                 SectionTypes.Straight
             }));
         }
-            
+
+        /*        public static void NextRace()
+                {
+                    if (CurrentRace != null)
+                    {
+                        CurrentRace.Dispose();
+                    }
+
+                    Track nextTrack = Competition.NextTrack();
+                    if (nextTrack == null || Competition.Participants == null) return;
+
+                    CurrentRace = new Race(nextTrack, Competition.Participants);
+                }*/
         public static void NextRace()
         {
-            if (CurrentRace != null)
+            Track track = Competition.NextTrack();
+
+            if (track == null)
             {
-                CurrentRace.Dispose();
+                // Console.WriteLine("No more tracks");
+
+                throw new Exception("No more tracks left.");
             }
 
-            Track nextTrack = Competition.NextTrack();
-            if (nextTrack == null || Competition.Participants == null) return;
+            CurrentRace?.StopTimer();
 
-            CurrentRace = new Race(nextTrack, Competition.Participants);
+            CurrentRace = new Race(track, Competition.Participants);
+
+            CurrentRace.RandomizeEquipment();
+            CurrentRace.StartTimer();
         }
-
-   }
-}
+    }
+    }

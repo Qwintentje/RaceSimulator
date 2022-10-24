@@ -31,7 +31,7 @@ namespace Model
 
         public Car()
         {
-            Speed = 10;
+            Speed = 15;
             IsBroken = false;
             
 
