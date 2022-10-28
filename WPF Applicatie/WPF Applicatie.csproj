@@ -8,4 +8,50 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Images\Broken.png" />
+    <None Remove="Images\CarBlue.png" />
+    <None Remove="Images\CarGreen.png" />
+    <None Remove="Images\CarGrey.png" />
+    <None Remove="Images\CarPurple.png" />
+    <None Remove="Images\CarRed.png" />
+    <None Remove="Images\CarYellow.png" />
+    <None Remove="Images\Finish.png" />
+    <None Remove="Images\StartGrid.png" />
+    <None Remove="Images\StraightHorizontal.png" />
+    <None Remove="Images\StraightVertical.png" />
+    <None Remove="Images\Turn0.png" />
+    <None Remove="Images\Turn1.png" />
+    <None Remove="Images\Turn2.png" />
+    <None Remove="Images\Turn3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Broken.png" />
+    <Content Include="Images\CarBlue.png" />
+    <Content Include="Images\CarGreen.png" />
+    <Content Include="Images\CarGrey.png" />
+    <Content Include="Images\CarPurple.png" />
+    <Content Include="Images\CarRed.png" />
+    <Content Include="Images\CarYellow.png" />
+    <Content Include="Images\Finish.png" />
+    <Content Include="Images\StartGrid.png" />
+    <Content Include="Images\StraightHorizontal.png" />
+    <Content Include="Images\StraightVertical.png" />
+    <Content Include="Images\Turn0.png" />
+    <Content Include="Images\Turn1.png" />
+    <Content Include="Images\Turn2.png" />
+    <Content Include="Images\Turn3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Controller\Controller.csproj" />
+    <ProjectReference Include="..\Model\Model.csproj" />
+    <ProjectReference Include="..\RaceSimulator\RaceSimulator.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Model
+﻿namespace Model
 {
     public class Car : IEquipment
     {
@@ -31,10 +25,8 @@ namespace Model
 
         public Car()
         {
-            Speed = 15;
+            Speed = 5;
             IsBroken = false;
-            
-
-        }   
+        }
     }
 }

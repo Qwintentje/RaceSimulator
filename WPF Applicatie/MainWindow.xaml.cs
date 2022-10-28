@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+using System.Windows.Threading;
+using Controller;
+using Model;
 namespace WPF_Applicatie
+
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,6 +14,34 @@ namespace WPF_Applicatie
         public MainWindow()
         {
             InitializeComponent();
+            Data.Initialize();
+            Data.NextRaceEvent += OnNextRaceEvent;
+            Data.NextRace();
+        }
+
+        private void OnDriversChanged(object o, DriversChangedEventArgs e)
+        {
+            TrackImage.Dispatcher.BeginInvoke(
+            DispatcherPriority.Render,
+            new Action(() =>
+            {
+                TrackImage.Source = null;
+                TrackImage.Source = WPFVisualization.DrawTrack(e.Track);
+            }));
+        }
+
+        private void OnNextRaceEvent(object o, NextRaceEventArgs e)
+        {
+            ImageClass.Dispose();
+
+            if (e.race != null)
+            {
+                WPFVisualization.Initialize(e.race);
+
+                e.race.DriversChanged += OnDriversChanged!;
+            }
+
         }
     }
 }
+

@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Srkj4m44wZ5h9ZdEPIKebLsAWY1nwEX8w7LtsfWgF3PWHEnePW4T7Xy/WP882GSjh5OrPLIQqE86Mw+yyDVY+w==",
+  "dgSpecHash": "m5vGoCFtwqS1YDqcPUYk9YEsqnqvrD97Mrw9XPFXS4gGmyhyPFXkV8GCjGXxjbRzsV+qdDRTgNuYwdz33uD6/A==",
   "success": true,
   "projectFilePath": "C:\\Users\\quint\\source\\repos\\RaceSimulator\\WPF Applicatie\\WPF Applicatie.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\quint\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\quint\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

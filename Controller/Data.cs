@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
-using static Model.Section;
+﻿using Model;
 using static Model.IParticipant;
+using static Model.Section;
 
 namespace Controller
 {
@@ -16,18 +10,18 @@ namespace Controller
         public static Race CurrentRace { get; set; }
         public static event EventHandler<NextRaceEventArgs?> NextRaceEvent;
 
-        public static Competition Initialize(Competition competition)
+        public static Competition Initialize()
         {
-/*            if (competition != null)
-            {
-                competition = new Competition();
-            }*/
-            Competition = competition;
+            /*            if (competition != null)
+                        {
+                            competition = new Competition();
+                        }*/
+            Competition = new Competition();
 
-            addParticipant(competition);
-            addTracks(competition);
+            addParticipant(Competition);
+            addTracks(Competition);
 
-            return competition;
+            return Competition;
         }
 
         public static void addParticipant(Competition competition)
@@ -42,26 +36,43 @@ namespace Controller
         {
             competition.Tracks.Enqueue(new Track("Felipe", new SectionTypes[]
             {
-                SectionTypes.StartGrid,
-                SectionTypes.StartGrid,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Finish
+                    SectionTypes.Finish,
+                    SectionTypes.StartGrid,
+                    SectionTypes.StartGrid,
+                    SectionTypes.Straight,
+                    SectionTypes.RightCorner,
+                    SectionTypes.Straight,
+                    SectionTypes.RightCorner,
+                    SectionTypes.Straight,
+                    SectionTypes.Straight,
+                    SectionTypes.Straight,
+                    SectionTypes.RightCorner,
+                    SectionTypes.LeftCorner,
+                    SectionTypes.Straight,
+                    SectionTypes.RightCorner,
+                    SectionTypes.Straight,
+                    SectionTypes.RightCorner,
+                    SectionTypes.RightCorner,
+                    SectionTypes.LeftCorner,
             }));
 
             competition.Tracks.Enqueue(new Track("Constantijn", new SectionTypes[]
             {
+                SectionTypes.Finish,
                 SectionTypes.StartGrid,
-                SectionTypes.Straight
+                SectionTypes.StartGrid,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+
             }));
         }
 
@@ -79,6 +90,7 @@ namespace Controller
                 }*/
         public static void NextRace()
         {
+            if (CurrentRace != null) { CurrentRace.Dispose(); }
             Track track = Competition.NextTrack();
 
             if (track == null)
@@ -88,12 +100,7 @@ namespace Controller
                 throw new Exception("No more tracks left.");
             }
 
-            CurrentRace?.StopTimer();
-
             CurrentRace = new Race(track, Competition.Participants);
-
-            CurrentRace.RandomizeEquipment();
-            CurrentRace.StartTimer();
         }
     }
-    }
+}

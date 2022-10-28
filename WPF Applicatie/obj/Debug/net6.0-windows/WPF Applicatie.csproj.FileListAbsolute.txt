@@ -19,3 +19,14 @@ C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-window
 C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.pdb
 C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.genruntimeconfig.cache
 C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\ref\WPF Applicatie.dll
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie_Content.g.cs
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\Controller.dll
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\Model.dll
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\Controller.pdb
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\Model.pdb
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\obj\Debug\net6.0-windows\WPF Applicatie.csproj.CopyComplete
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\RaceSimulator.deps.json
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\RaceSimulator.runtimeconfig.json
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\RaceSimulator.exe
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\RaceSimulator.dll
+C:\Users\quint\source\repos\RaceSimulator\WPF Applicatie\bin\Debug\net6.0-windows\RaceSimulator.pdb

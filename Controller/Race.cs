@@ -1,6 +1,5 @@
-﻿using Model;
-using System.Security.AccessControl;
-using System.Timers;
+﻿using System.Timers;
+using Model;
 using static Model.Section;
 using Timer = System.Timers.Timer;
 
@@ -8,42 +7,37 @@ namespace Controller
 {
     public class Race
     {
-        public const int SectionLength = 300;
+        public const int SectionLength = 150;
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
         private Random _random = new Random();
         private Timer _timer;
-        public static Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
+        public static Dictionary<Section, SectionData> _positions;
         private int interval = 500;
-        private readonly Dictionary<IParticipant, int> _lapsDriven = new Dictionary<IParticipant, int>();
-        private readonly List<IParticipant> _isFinished = new List<IParticipant>();
+        public static Dictionary<IParticipant, int> _lapsDriven;
+        private static List<IParticipant> _isFinished;
 
         public Race(Track track, List<IParticipant> participants)
         {
             Track = track;
             Participants = participants;
-            
+
             _random = new Random(DateTime.Now.Millisecond);
             _timer = new Timer(interval);
             _timer.Elapsed += OnTimedEvent;
+            _positions = new Dictionary<Section, SectionData>();
 
-         Dictionary<IParticipant, int> _lapsDriven = new Dictionary<IParticipant, int>();
-         List<IParticipant> _isFinished = new List<IParticipant>();
+            _lapsDriven = new Dictionary<IParticipant, int>();
+            _isFinished = new List<IParticipant>();
 
-        StartTimer();
-        Initialize();
+            StartTimer();
+            Initialize();
         }
 
         public void StartTimer()
         {
             _timer.Start();
-        }
-
-        public void StopTimer()
-        {
-            _timer.Stop();
-            DriversChanged = null;
         }
 
         public void Initialize()
@@ -78,41 +72,15 @@ namespace Controller
                     }
                 }
             }
-
-            //Zeker weten dat startGrid groter dan 0 is voordat we beginnen met toevoegen
-            /** while (startGrid.Count > 0)
-            {
-                //krijg eerste van de stack, oftewel de start.
-                var startSection = startGrid.Pop();
-                var sectionData = GetSectionData(startSection);
-
-                //Voeg driver toe aan de linkerkant van de track
-                if (driversRemaining > 0)
-                {
-                    sectionData.Left = participants[currentDriver];
-                    sectionData.StartTimeLeft = StartTime;
-                    driversRemaining--;
-                    currentDriver++;
-                }
-
-                //Voeg driver toe aan de rechter kant van de track
-                if (driversRemaining > 0)
-                {
-                    sectionData.Right = participants[currentDriver];
-                    sectionData.StartTimeRight = StartTime;
-                    driversRemaining--;
-                    currentDriver++;
-                }
-            } **/
         }
 
         private void MoveParticipants()
         {
-            //Check if amount of isFinished list is equal with Participants.count
             if (_isFinished.Count == Participants.Count)
             {
-                RaceEnded.Invoke(this, EventArgs.Empty);
-            }
+                RaceEnded?.Invoke(this, EventArgs.Empty);
+            };
+
             for (int i = 0; i < _positions.Count; i++)
             {
                 var CurrentSectionData = _positions.ElementAt(i); //Current Section
@@ -134,7 +102,7 @@ namespace Controller
                     int DriverSpeed;
                     if (CurrentSectionData.Value.Left.Equipment.IsBroken)
                     {
-                         DriverSpeed = 0;
+                        DriverSpeed = 0;
                     }
                     else
                     {
@@ -155,16 +123,20 @@ namespace Controller
                                 {
                                     if (_lapsDriven.ContainsKey(NextSectionData.Value.Right))
                                     {
-                                        _lapsDriven[NextSectionData.Value.Right]++;
+                                        if (_lapsDriven[NextSectionData.Value.Right] == 2)
+                                        {
+                                            _isFinished.Add(NextSectionData.Value.Right);
+                                            NextSectionData.Value.Right = null;
+                                            NextSectionData.Value.DistanceRight = 0;
+                                        }
+                                        else
+                                        {
+                                            _lapsDriven[NextSectionData.Value.Right]++;
+                                        }
                                     }
                                     else
                                     {
                                         _lapsDriven.Add(NextSectionData.Value.Right, 1);
-                                    }
-                                    if (_lapsDriven[NextSectionData.Value.Right] == 3)
-                                    {
-                                        _isFinished.Add(NextSectionData.Value.Right);
-                                        NextSectionData.Value.Right = null;
                                     }
                                 }
                             }
@@ -176,16 +148,20 @@ namespace Controller
                             {
                                 if (_lapsDriven.ContainsKey(NextSectionData.Value.Left))
                                 {
-                                    _lapsDriven[NextSectionData.Value.Left]++;
+                                    if (_lapsDriven[NextSectionData.Value.Left] == 2)
+                                    {
+                                        _isFinished.Add(NextSectionData.Value.Left);
+                                        NextSectionData.Value.Left = null;
+                                        NextSectionData.Value.DistanceLeft = 0;
+                                    }
+                                    else
+                                    {
+                                        _lapsDriven[NextSectionData.Value.Left]++;
+                                    }
                                 }
                                 else
                                 {
                                     _lapsDriven.Add(NextSectionData.Value.Left, 1);
-                                }
-                                if (_lapsDriven[NextSectionData.Value.Left] == 3)
-                                {
-                                    _isFinished.Add(NextSectionData.Value.Left);
-                                    NextSectionData.Value.Right = null;
                                 }
                             }
                         }
@@ -226,16 +202,20 @@ namespace Controller
                                 {
                                     if (_lapsDriven.ContainsKey(NextSectionData.Value.Right))
                                     {
-                                        _lapsDriven[NextSectionData.Value.Right]++;
+                                        if (_lapsDriven[NextSectionData.Value.Right] == 2)
+                                        {
+                                            _isFinished.Add(NextSectionData.Value.Right);
+                                            NextSectionData.Value.Right = null;
+                                            NextSectionData.Value.DistanceRight = 0;
+                                        }
+                                        else
+                                        {
+                                            _lapsDriven[NextSectionData.Value.Right]++;
+                                        }
                                     }
                                     else
                                     {
                                         _lapsDriven.Add(NextSectionData.Value.Right, 1);
-                                    }
-                                    if (_lapsDriven[NextSectionData.Value.Right] == 3)
-                                    {
-                                        _isFinished.Add(NextSectionData.Value.Right);
-                                        NextSectionData.Value.Right = null;
                                     }
                                 }
                             }
@@ -247,16 +227,20 @@ namespace Controller
                             {
                                 if (_lapsDriven.ContainsKey(NextSectionData.Value.Left))
                                 {
-                                    _lapsDriven[NextSectionData.Value.Left]++;
+                                    if (_lapsDriven[NextSectionData.Value.Left] == 2)
+                                    {
+                                        _isFinished.Add(NextSectionData.Value.Left);
+                                        NextSectionData.Value.Left = null;
+                                        NextSectionData.Value.DistanceLeft = 0;
+                                    }
+                                    else
+                                    {
+                                        _lapsDriven[NextSectionData.Value.Left]++;
+                                    }
                                 }
                                 else
                                 {
                                     _lapsDriven.Add(NextSectionData.Value.Left, 1);
-                                }
-                                if (_lapsDriven[NextSectionData.Value.Right] == 3)
-                                {
-                                    _isFinished.Add(NextSectionData.Value.Right);
-                                    NextSectionData.Value.Right = null;
                                 }
                             }
                         }
@@ -264,6 +248,10 @@ namespace Controller
                         //Delete driver from previous section
                         CurrentSectionData.Value.DistanceRight = CurrentSectionData.Value.DistanceRight - SectionLength;
                         CurrentSectionData.Value.Right = null;
+                    }
+                    else
+                    {
+                        CurrentSectionData.Value.DistanceRight += DriverSpeed;
                     }
                 }
             }
@@ -299,28 +287,69 @@ namespace Controller
         {
             foreach (IParticipant participant in Participants)
             {
-                participant.Equipment.Quality = Convert.ToInt32(_random.Next(7, 10));
-                participant.Equipment.Performance = Convert.ToInt32(_random.Next(7, 10));
-                //   participant.Equipment.SectionSpeed = 100 / (participant.Equipment.Speed * participant.Equipment.Performance);
+                participant.Equipment.Quality = Convert.ToInt32(_random.Next(1, 5));
+                participant.Equipment.Performance = Convert.ToInt32(_random.Next(5, 10));
             }
         }
 
+        public void updateEquipment()
+        {
+            foreach (var participant in Participants)
+            {
+                if (!participant.Equipment.IsBroken)
+                {
+                    if ((_random.Next(0, 100) * participant.Equipment.Quality) < 5)
+                    {
+                        participant.Equipment.IsBroken = true;
+                    }
+                    else
+                    {
+                        // participant.Equipment.IsBroken = false;
+                    }
+                }
+                else
+                {
+                    if (_random.Next(0, 100) < 20)
+                    {
+                        participant.Equipment.IsBroken = false;
+                    }
+                    else
+                    {
+                        //participant.Equipment.IsBroken = true;
+                    }
+                }
+            }
+        }
         #region Events
         public event EventHandler<DriversChangedEventArgs?> DriversChanged;
         public event EventHandler<EventArgs> RaceEnded;
-
         private void OnTimedEvent(object? o, ElapsedEventArgs e)
         {
             MoveParticipants();
+            updateEquipment();
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
         }
+
         #endregion
 
         public void Dispose()
         {
-            //DriversChanged = null;
+            DriversChanged = null;
+            RaceEnded = null;
             _positions.Clear();
             _timer.Stop();
+        }
+
+        public bool IsFinished()
+        {
+            if (_isFinished.Count == Participants.Count)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Controller;
+﻿using Controller;
 using Model;
 using static Model.Section;
-using static Controller.Race;
 
 namespace RaceSimulator
 {
@@ -207,6 +201,7 @@ namespace RaceSimulator
             InitializeConsole();
             DrawTrack(_track);
             _currentRace.DriversChanged += OnDriversChanged;
+            _currentRace.RaceEnded += RaceEndedEventHandler;
         }
 
         public static void InitializeConsole()
@@ -214,24 +209,36 @@ namespace RaceSimulator
             Console.Clear();
             Console.SetCursorPosition(0, 0);
         }
-        
+
         public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
             DrawTrack(e.Track);
-            
+            foreach (KeyValuePair<IParticipant, int> item in Race._lapsDriven)
+            {
+                Console.WriteLine(item.Key.Name + " " + item.Value);
+            }
 
+        }
+
+        public static void RaceEndedEventHandler(object sender, EventArgs eventArgs)
+        {
+            Data.NextRace();
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.RaceEnded += RaceEndedEventHandler;
+            TrackVisualization.Initialize(Data.CurrentRace);
         }
 
         public static void DrawTrack(Track track)
         {
-            _posX = 50; 
-            _posY = 0;
+            _posX = 50;
+            _posY = 10;
 
             Console.SetCursorPosition(_posX, _posY);
-            int i = 1;
+
             foreach (Section section in track.Sections)
             {
                 DrawSection(section);
+
             }
         }
 
@@ -239,7 +246,7 @@ namespace RaceSimulator
         {
             string[] sectionToDraw = VisualizeParticipantsOnTrack(GetSectionVisualization(section.SectionType, _currentDirection), _currentRace.GetSectionData(section));
             int currentY = _posY;
-            
+
             foreach (string s in sectionToDraw)
             {
                 try
@@ -267,23 +274,36 @@ namespace RaceSimulator
 
             if (sectionData.Left != null)
             {
-                left = sectionData.Left.Name.Substring(0, 1);
+                if (sectionData.Left.Equipment.IsBroken)
+                {
+                    left = string.Concat("X", sectionData.Left.Name.AsSpan(0, 1));
+                }
+                else
+                {
+                    left = sectionData.Left.Name[..1];
+                }
             }
-           
 
             if (sectionData.Right != null)
             {
-                right = sectionData.Right.Name.Substring(0, 1);
+                if (sectionData.Right.Equipment.IsBroken)
+                {
+                    right = string.Concat("X", sectionData.Right.Name.AsSpan(0, 1));
+                }
+                else
+                {
+                    right = sectionData.Right.Name[..1];
+                }
             }
-            
 
             for (int i = 0; i < sectionRow.Length; i++)
             {
                 retValue[i] = sectionRow[i].Replace("1", left).Replace("2", right);
             }
-            
+
             return retValue;
         }
+
 
         //Methode om de Direction te updaten wanneer een corner wordt bereikt
         public static void UpdateDirection(SectionTypes sectionType)
