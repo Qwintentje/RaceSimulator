@@ -1,0 +1,17 @@
+# .NET
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+*.suo
+*.user
+*.vs/
+*.dll
+*.exe
+
+# Visual Studio Code
+.vscode/
+
+# NuGet
+*.nuget.props
+*.nuget.targets

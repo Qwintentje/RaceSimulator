@@ -25,7 +25,7 @@
 
         public Car()
         {
-            Speed = 5;
+            Speed = 10;
             IsBroken = false;
         }
     }

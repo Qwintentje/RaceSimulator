@@ -17,13 +17,13 @@ namespace RaceSimulator
 
         private static readonly string[] _finishHorizontal =
             {
-            "-------",
+            "---F---",
             "       ",
             "   1   ",
             "       ",
             "   2   ",
             "       ",
-            "-------"
+            "---F---"
         };
 
         private static readonly string[] _finishVertical =
@@ -31,7 +31,7 @@ namespace RaceSimulator
             "|     |",
             "|     |",
             "|     |",
-            "| 1 2 |",
+            "F 1 2 F",
             "|     |",
             "|     |",
             "|     |",

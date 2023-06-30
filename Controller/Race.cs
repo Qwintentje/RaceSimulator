@@ -1,5 +1,5 @@
-﻿using System.Timers;
-using Model;
+﻿using Model;
+using System.Timers;
 using static Model.Section;
 using Timer = System.Timers.Timer;
 
@@ -28,7 +28,9 @@ namespace Controller
             _timer.Elapsed += OnTimedEvent;
             _positions = new Dictionary<Section, SectionData>();
 
-            _lapsDriven = new Dictionary<IParticipant, int>();
+
+            _lapsDriven = participants.ToDictionary(p => p, _ => 0);
+
             _isFinished = new List<IParticipant>();
 
             StartTimer();
@@ -298,7 +300,7 @@ namespace Controller
             {
                 if (!participant.Equipment.IsBroken)
                 {
-                    if ((_random.Next(0, 100) * participant.Equipment.Quality) < 5)
+                    if ((_random.Next(0, 100) * participant.Equipment.Quality) < 20)
                     {
                         participant.Equipment.IsBroken = true;
                     }
