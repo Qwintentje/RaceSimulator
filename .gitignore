@@ -15,3 +15,7 @@
 # NuGet
 *.nuget.props
 *.nuget.targets
+
+
+# Ignore .suo files
+*.suo
