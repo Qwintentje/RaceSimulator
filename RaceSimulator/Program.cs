@@ -1,29 +1,19 @@
 ﻿using Controller;
-using RaceSimulator;
 
-namespace Main
+namespace Main;
+
+public class Program
 {
-    public class Program
+    static void Main(string[] args)
     {
+        Data.Initialize();
+        Data.NextRace();
 
-        static void Main(string[] args)
+        for (; ; )
         {
-            /*            var competition = new Competition();
-                        competition = Data.Initialize(competition);*/
-            Data.Initialize();
-            Data.NextRace();
-
-            TrackVisualization.Initialize(Data.CurrentRace);
-
-
-
-            for (; ; )
-            {
-                Thread.Sleep(100);
-            }
-
+            Thread.Sleep(100);
         }
-
-
     }
+
+
 }

@@ -41,8 +41,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Controller >= 1.0.0",
-      "Model >= 1.0.0"
+      "Controller >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -74,9 +73,6 @@
           "projectReferences": {
             "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Controller\\Controller.csproj": {
               "projectPath": "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Controller\\Controller.csproj"
-            },
-            "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj": {
-              "projectPath": "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj"
             }
           }
         }

@@ -144,9 +144,6 @@
             "projectReferences": {
               "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Controller\\Controller.csproj": {
                 "projectPath": "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Controller\\Controller.csproj"
-              },
-              "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj": {
-                "projectPath": "C:\\Users\\quint\\Documents\\GitHub\\RaceSimulator\\Model\\Model.csproj"
               }
             }
           }
